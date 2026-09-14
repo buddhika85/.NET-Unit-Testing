@@ -2,7 +2,13 @@
 
 namespace GameLibrary;
 
-public class FileBasedPlayerStatisticsService
+public interface IPlayerStatisticsService
+{
+    PlayerStatistics GetPlayerStatistics(string playerName);
+    void UpdatePlayerStatistics(PlayerStatistics stats);
+}
+
+public class FileBasedPlayerStatisticsService : IPlayerStatisticsService
 {
     private readonly string filePath;
 
