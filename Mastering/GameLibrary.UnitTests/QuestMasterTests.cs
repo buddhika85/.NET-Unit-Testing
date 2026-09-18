@@ -40,7 +40,7 @@ public class QuestMasterTests
         // arrange
         var playerContact = new PlayerContact("Alice", "alice@example.com");
         var questDifficulty = 1;
-        var questGenerator = new QuestGenerator();
+        var questGenerator = new QuestGenerator(new QuestRewardCalculator());
         var expectedMessageSections = new[] {
             "You have been assigned a new quest: ",
             "! Complete it to earn ",

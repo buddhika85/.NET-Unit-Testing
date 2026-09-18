@@ -8,7 +8,7 @@ public class PlayerTests
     public void IncreaseLevel_WhenCalled_HasExpectedLevel()
     {
         // Arrange
-        Player sut = new("Alice", 1, DateTime.Now);
+        Player sut = SetupPlayer(level: 1);
 
         // Act
         sut.IncreaseLevel();
@@ -26,7 +26,7 @@ public class PlayerTests
     public void Greet_ValidGreeting_ReturnsGreetingWithName()
     {
         // Arrange
-        var sut = new Player("Alice", 1, DateTime.Now);
+        var sut = SetupPlayer(name: "Alice");
 
         // Act
         var result = sut.Greet("Hello");
@@ -36,29 +36,29 @@ public class PlayerTests
         result.Should().Contain("Alice");
         result.Should().EndWith("Alice!");
         result.Should().NotBeNullOrWhiteSpace();
-    }    
+    }
 
     [Fact]
-    public void Constructor_OnNewInstance_SetsJoinDate ()
+    public void Constructor_OnNewInstance_SetsJoinDate()
     {
         // Arrange
         var currentDate = DateTime.Now;
 
         // Act
-        var sut = new Player("Alice", 1, currentDate);
+        var sut = SetupPlayer(joinDate: currentDate);
 
         // Assert
         sut.JoinDate.Should().Be(currentDate);
         sut.JoinDate.Should().BeCloseTo(currentDate, TimeSpan.FromMilliseconds(500));
         sut.JoinDate.Should().BeWithin(TimeSpan.FromMilliseconds(500)).Before(currentDate);
-    }    
+    }
 
     [Fact]
     public void AddItemToInventory_WithValidItem_AddsTheItem()
     {
         // Arrange
-        var sut = new Player("Alice", 1, DateTime.Now);
-        var item = new InventoryItem(101, "Sword", "A sharp blade.");        
+        var sut = SetupPlayer();
+        var item = new InventoryItem(101, "Sword", "A sharp blade.");
 
         // Act
         sut.AddItemToInventory(item);
@@ -69,33 +69,37 @@ public class PlayerTests
         sut.InventoryItems.Should().Contain(item);
         sut.InventoryItems.Should().ContainSingle(
             item => item.Id == 101 && item.Name == "Sword");
-    }  
+    }
 
     [Fact]
     public void Greet_NullOrEmptyGreeting_ThrowsArgumentException()
     {
         // Arrange
-        var sut = new Player("Alice", 1, DateTime.Now);
+        var sut = SetupPlayer();
 
         // Act
         Action act = () => sut.Greet("");
 
         // Assert
         act.Should().Throw<ArgumentException>();
-    }   
+    }
 
     [Fact]
     public void IncreaseLevel_WhenCalled_RaisesLevelUpEvent()
     {
         // Arrange
-        var sut = new Player("Alice", 1, DateTime.Now);
+        var sut = SetupPlayer();
         using var monitoredSut = sut.Monitor();
-        
+
         // Act
         sut.IncreaseLevel();
 
         // Assert
         monitoredSut.Should().Raise(nameof(sut.LevelUp));
     }
+
+    private static Player SetupPlayer(string name = "Alice", int level = 1, DateTime? joinDate = null) =>
+        new(name, level, joinDate ?? DateTime.Now);
+
 }
 

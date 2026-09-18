@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matchmaker.Api", "MatchMaker.Api\Matchmaker.Api.csproj", "{2F1FB95B-EEBA-4A8B-905C-A566956052C5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatchMaker.Api.Tests", "MatchMaker.Api.Tests\MatchMaker.Api.Tests.csproj", "{CF4C0B7C-203F-47B7-B452-A437F07CA813}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F1FB95B-EEBA-4A8B-905C-A566956052C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F1FB95B-EEBA-4A8B-905C-A566956052C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F1FB95B-EEBA-4A8B-905C-A566956052C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F1FB95B-EEBA-4A8B-905C-A566956052C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF4C0B7C-203F-47B7-B452-A437F07CA813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF4C0B7C-203F-47B7-B452-A437F07CA813}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF4C0B7C-203F-47B7-B452-A437F07CA813}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF4C0B7C-203F-47B7-B452-A437F07CA813}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46E8B5EC-D0E3-4AB7-8ECA-FAE9DFEF0342}
+	EndGlobalSection
+EndGlobal
