@@ -4,17 +4,17 @@ POST {{baseUrl}}
 content-type: application/json
 
 {
-    "playerId": "player1"
+    "playerId": "player5"
 }
 
 ###
 GET {{baseUrl}}?playerId=player2
 
 ###
-GET {{baseUrl}}/1
+GET {{baseUrl}}/3
 
 ###
-PUT {{baseUrl}}/1
+PUT {{baseUrl}}/3
 content-type: application/json
 
 {
@@ -23,4 +23,4 @@ content-type: application/json
 }
 
 ###
-DELETE {{baseUrl}}/
+DELETE {{baseUrl}}/3

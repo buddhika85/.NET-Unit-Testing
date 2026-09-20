@@ -35,19 +35,14 @@ public class GameMatcher : IGameMatcher
             if (match is null)
             {
                 // Create a new match
-                match = new GameMatch
-                {
-                    Player1 = playerId,
-                    State = GameMatchState.WaitingForOpponent
-                };
+                match = new GameMatch(playerId);
 
                 await repository.CreateMatchAsync(match);
             }
             else
             {
                 // Assign to open match
-                match.Player2 = playerId;
-                match.State = GameMatchState.MatchReady;
+                match.SetPlayer2(playerId);
                 await repository.UpdateMatchAsync(match);
             }
 
@@ -78,24 +73,7 @@ public class GameMatcher : IGameMatcher
     {
         var match = await repository.FindMatchByIdAsync(matchId) ?? throw new MatchNotFoundException(matchId);
 
-        if (!IPAddress.TryParse(request.IpAddress, out var parsedIpAddress))
-        {
-            throw new InvalidIpAddressException(request.IpAddress);
-        }
-
-        if (request.Port < IPEndPoint.MinPort || request.Port > IPEndPoint.MaxPort)
-        {
-            throw new InvalidPortException(request.Port);
-        }
-
-        if (match.State != GameMatchState.MatchReady)
-        {
-            throw new MatchNotReadyException($"Cannot set server details for match in state {match.State}.");
-        }
-
-        match.ServerIpAddress = parsedIpAddress;
-        match.ServerPort = request.Port;
-        match.State = GameMatchState.ServerReady;
+        match.SetServerDetails(request.IpAddress, request.Port);
 
         await repository.UpdateMatchAsync(match);
 
