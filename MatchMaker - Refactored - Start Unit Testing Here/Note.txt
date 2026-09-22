@@ -1,0 +1,9 @@
+This API project is already.
+
+U can use this to practise writing unit tests for -
+
+Entities
+Repositories
+Services
+Controllers
+Minimal APIs....etc

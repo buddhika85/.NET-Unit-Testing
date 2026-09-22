@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/MatchMaker.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Run tests with coverage",
+            "type": "shell",
+            "command": "pwsh",
+            "args": [
+                "-File",
+                "${workspaceFolder}/MatchMaker.Api.Tests/scripts/run-tests.ps1",
+                "${workspaceFolder}/MatchMaker.Api.Tests",
+            ],            
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        }
+    ]
+}

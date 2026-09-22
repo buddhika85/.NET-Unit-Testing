@@ -1,0 +1,26 @@
+@baseUrl = http://localhost:5031/matches
+
+POST {{baseUrl}}
+content-type: application/json
+
+{
+    "playerId": "player5"
+}
+
+###
+GET {{baseUrl}}?playerId=player2
+
+###
+GET {{baseUrl}}/3
+
+###
+PUT {{baseUrl}}/3
+content-type: application/json
+
+{
+    "ipAddress": "192.168.1.1",
+    "port": 5555
+}
+
+###
+DELETE {{baseUrl}}/3
