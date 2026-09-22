@@ -1,5 +1,4 @@
 using System.Net;
-using MatchMaker.Api.Contracts.Dtos;
 using MatchMaker.Api.Exceptions;
 
 namespace MatchMaker.Api.Entities;

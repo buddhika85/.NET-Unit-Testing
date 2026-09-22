@@ -1,4 +1,3 @@
-using System.Net;
 using MatchMaker.Api.Contracts;
 using MatchMaker.Api.Contracts.Dtos;
 using MatchMaker.Api.Entities;
@@ -18,7 +17,7 @@ public class GameMatcher : IGameMatcher
         this.logger = logger;
     }
 
-    public async Task<GameMatchResponse> JoinMatchAsync(JoinMatchRequest request)
+    public async Task<GameMatchResponse> MatchPlayerAsync(JoinMatchRequest request)
     {
         string playerId = request.PlayerId;
 

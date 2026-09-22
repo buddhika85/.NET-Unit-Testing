@@ -8,5 +8,5 @@ public interface IGameMatcher
     Task<bool> DeleteMatchAsync(int matchId);
     Task<GameMatchResponse> GetMatchByIdAsync(int matchId);
     Task<GameMatchResponse?> GetMatchForPlayerAsync(string playerId);
-    Task<GameMatchResponse> JoinMatchAsync(JoinMatchRequest request);
+    Task<GameMatchResponse> MatchPlayerAsync(JoinMatchRequest request);
 }

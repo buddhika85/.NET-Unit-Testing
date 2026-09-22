@@ -18,7 +18,7 @@ public class MatchesController : ControllerBase
     [HttpPost]
     public async Task<GameMatchResponse> JoinMatchAsync(JoinMatchRequest request)
     {
-        return await gameMatcher.JoinMatchAsync(request);
+        return await gameMatcher.MatchPlayerAsync(request);
     }
 
     [HttpGet]
