@@ -1,10 +1,10 @@
 using FluentAssertions;
 using Matchmaker.Api.Services;
-using MatchMaker.Api.Contracts;
 using MatchMaker.Api.Contracts.Dtos;
 using MatchMaker.Api.Entities;
 using MatchMaker.Api.Repositories;
 using Microsoft.Extensions.Logging;
+using MatchMaker.Api.Contracts;
 using Moq;
 
 namespace MatchMaker.Api.Tests.Services;
