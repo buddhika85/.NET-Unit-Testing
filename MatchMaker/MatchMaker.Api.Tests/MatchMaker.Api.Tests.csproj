@@ -30,7 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\" />
     <Folder Include="Entities\" />
+    <Folder Include="ErrorHandling\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
