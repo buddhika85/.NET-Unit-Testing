@@ -1,0 +1,6 @@
+
+
+Install below. Thats all. :) 
+
+
+dotnet add package Meziantou.Xunit.ParallelTestFramework

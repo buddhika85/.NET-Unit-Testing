@@ -1,9 +1,11 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MatchMaker.Api.ErrorHandling;
 
+//[ExcludeFromCodeCoverage]
 public static class ErrorHandlingExtensions
 {
     public static void ConfigureExceptionHandler(this IApplicationBuilder app)
@@ -46,7 +48,7 @@ public static class ErrorHandlingExtensions
         var exceptionDetails = context.Features.Get<IExceptionHandlerFeature>();
         var exception = exceptionDetails?.Error;
         return exception;
-    }    
+    }
 
     private static string? GetProblemDetail(HttpContext context, Exception? exception)
     {

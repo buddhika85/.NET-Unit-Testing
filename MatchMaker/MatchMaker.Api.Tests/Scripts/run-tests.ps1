@@ -9,7 +9,7 @@ dotnet build $testProjectDir\MatchMaker.Api.Tests.csproj
 
 # Run tests and collect coverage
 Write-Host "`nStarting test execution..."
-$testOutput = dotnet test $testProjectDir\MatchMaker.Api.Tests.csproj --collect "XPlat Code Coverage;Format=lcov" --no-build
+$testOutput = dotnet test $testProjectDir\MatchMaker.Api.Tests.csproj --collect "XPlat Code Coverage;Format=lcov" --no-build --settings $testProjectDir\CodeCoverage.runsettings
 $coverageFilePath = $testOutput | Select-String $coverageFileName | ForEach-Object { $_.Line.Trim() } | Join-String -Separator ';'
 
 # Generate the coverage report
