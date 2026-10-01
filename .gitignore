@@ -483,3 +483,9 @@ $RECYCLE.BIN/
 
 # Code coverage output folders (any depth)
 coverage/
+
+
+# SQLite Dbs 
+*.db
+*.db-shm
+*.db-wal
