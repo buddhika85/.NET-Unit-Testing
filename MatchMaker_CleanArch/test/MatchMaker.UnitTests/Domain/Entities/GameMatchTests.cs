@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Net;
+using FluentAssertions;
 using MatchMaker.Domain.Entities;
 using MatchMaker.Domain.Exceptions;
 using Xunit;
@@ -69,7 +70,7 @@ public class GameMatchTests
 
         // Assert
         sut.Player2.Should().Be(player2);
-        sut.State.Should().Be(GameMatchState.MatchReady);        
+        sut.State.Should().Be(GameMatchState.MatchReady);
     }
 
     #endregion    
@@ -92,6 +93,37 @@ public class GameMatchTests
     }
 
     [Fact]
+    public void SetServerDetails_OutOfRangePort_ThrowsInvalidIpAddressException()
+    {
+        // Arrange
+        GameMatch sut = new("P1");
+        string invalidIpAddress = "192.168.0.1";
+        int port = IPEndPoint.MaxPort + 1;      // 65535 + 1
+
+        // Act
+        Action act = () => sut.SetServerDetails(invalidIpAddress, port);
+
+        // Assert
+        act.Should().Throw<InvalidPortException>();
+    }
+
+    [Fact]
+    public void SetServerDetails_WhenNotMatchReady_ThrowsMatchNotReadyException()
+    {
+        // Arrange
+        GameMatch sut = new("P1");
+        string ipAddress = "192.168.0.1";
+        int port = 1234;
+
+        // Act
+        Action act = () => sut.SetServerDetails(ipAddress, port);
+
+        // Assert
+        act.Should().Throw<MatchNotReadyException>();
+    }
+
+
+    [Fact]
     public void SetServerDetails_MatchReady_SetsExpectedProperties()
     {
         // Arrange
@@ -106,7 +138,7 @@ public class GameMatchTests
         // Assert
         sut.ServerIpAddress!.ToString().Should().Be(ipAddress);
         sut.ServerPort.Should().Be(port);
-        sut.State.Should().Be(GameMatchState.ServerReady);        
+        sut.State.Should().Be(GameMatchState.ServerReady);
     }
 
     #endregion    
