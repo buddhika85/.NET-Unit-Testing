@@ -1,5 +1,4 @@
 ﻿using MatchMaker.Domain.Entities;
-using NSubstitute;
 using MatchMaker.Application.Repositories;
 using Microsoft.Extensions.Logging;
 using MatchMaker.Application.MatchMaking.MatchPlayer;
@@ -8,6 +7,7 @@ using Moq;
 using AutoFixture;
 using MatchMaker.Application.Contracts;
 using FluentAssertions;
+using MatchMaker.Application.Contracts.Dtos;
 
 
 namespace MatchMaker.UnitTests.Application.MatchMaking;
@@ -46,23 +46,73 @@ public class MatchPlayerTests
         repoStub.Verify(x => x.UpdateMatchAsync(It.IsAny<GameMatch>()), Times.Never);
     }
 
-
-    #region "Utilities"
-
-    private static GameMatch CreateMatch()
+    [Fact]
+    public async Task Handle_WhenPlayerMatchNotExistsButOpenMatchExists_SetPlayer2AndReturnsMatch()
     {
-        return new("P1");
+        // Arrange 
+        var repoStub = new Mock<IGameMatchRepository>();
+        var loggerStub = new Mock<ILogger<MatchPlayerCommandHandler>>();
+
+        var playerId = fixture.Create<string>();
+        var match = new GameMatch(fixture.Create<string>());
+        repoStub.Setup(x => x.FindMatchForPlayerAsync(playerId)).ReturnsAsync((GameMatch?)null);
+        repoStub.Setup(x => x.FindOpenMatchAsync()).ReturnsAsync(match);
+
+        var sut = new MatchPlayerCommandHandler(repoStub.Object, loggerStub.Object);
+
+        // Act
+        var result = await sut.Handle(
+            new MatchPlayerCommand(playerId),
+            fixture.Create<CancellationToken>());
+
+        // Assert
+        result.Should().BeEquivalentTo(
+            new GameMatchResponse(
+                match.Id,
+                match.Player1,
+                playerId,
+                "MatchReady",
+                null,
+                null)
+            );
+
+
+        repoStub.Verify(x => x.FindMatchForPlayerAsync(playerId), Times.Once);
+        repoStub.Verify(x => x.FindOpenMatchAsync(), Times.Once);
+        repoStub.Verify(x => x.CreateMatchAsync(It.IsAny<GameMatch>()), Times.Never);
+        repoStub.Verify(x => x.UpdateMatchAsync(It.IsAny<GameMatch>()), Times.Once);
     }
 
-    private static IGameMatchRepository CreateRepositoryStub()
+    [Fact]
+    public async Task Handle_WhenPlayerMatchNotExistsAndOpenMatchNotExists_CreatesNewMatchAndReturnsMatch()
     {
-        return Substitute.For<IGameMatchRepository>();
+        // Arrange
+        var repoStub = new Mock<IGameMatchRepository>();
+        var loggerStub = new Mock<ILogger<MatchPlayerCommandHandler>>();
+
+        var playerId = fixture.Create<string>();
+        repoStub.Setup(x => x.FindMatchForPlayerAsync(playerId)).ReturnsAsync((GameMatch?)null);
+        repoStub.Setup(x => x.FindOpenMatchAsync()).ReturnsAsync((GameMatch?)null);
+
+        var sut = new MatchPlayerCommandHandler(repoStub.Object, loggerStub.Object);
+
+        // Act
+        var result = await sut.Handle(
+            new MatchPlayerCommand(playerId),
+            fixture.Create<CancellationToken>());
+
+        // Assert
+        result.Should().BeEquivalentTo(new
+        {
+            Player1 = playerId,
+            State = "WaitingForOpponent"
+        });
+
+
+        repoStub.Verify(x => x.FindMatchForPlayerAsync(playerId), Times.Once);
+        repoStub.Verify(x => x.FindOpenMatchAsync(), Times.Once);
+        repoStub.Verify(x => x.CreateMatchAsync(It.IsAny<GameMatch>()), Times.Once);
+        repoStub.Verify(x => x.UpdateMatchAsync(It.IsAny<GameMatch>()), Times.Never);
     }
 
-    private static ILogger<MatchPlayerCommandHandler> CreateLoggerStub()
-    {
-        return Substitute.For<ILogger<MatchPlayerCommandHandler>>();
-    }
-
-    #endregion
 }
